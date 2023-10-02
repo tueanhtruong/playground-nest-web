@@ -3,9 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "deploy": "pnpm build && pnpm build:pre-run-vercel",
     "build": "wireit",
-    "build:pre-run-vercel": "mv dist/main.js dist/index.js",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "node dist/main",
     "dev": "nest start --watch",
@@ -22,8 +20,7 @@
     "prisma:g": "npx prisma generate",
     "prisma:i": "npx prisma introspect",
     "prisma:deploy": "npx prisma migrate deploy",
-    "prisma:s": "npx prisma db seed",
-    "prepare": "pnpm prisma:g"
+    "prisma:s": "npx prisma db seed"
   },
   "wireit": {
     "build:db-gen": {

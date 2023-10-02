@@ -1,9 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "build": "turbo build --filter=!admin --filter=!blog",
+    "build": "turbo build",
     "clean": "turbo clean",
-    "dev": "turbo dev --no-cache  --continue --concurrency=12 --filter=!admin --filter=!blog",
+    "dev": "turbo dev --no-cache  --continue --concurrency=12",
+    "dev:api": "turbo dev --no-cache --filter=api",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo lint",
     "test": "turbo test",
