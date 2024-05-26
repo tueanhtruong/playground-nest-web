@@ -1,5 +1,5 @@
 import { ApiKeyTag, useLogger } from '@commons';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -9,6 +9,7 @@ const description = 'The Swagger API documents';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
   useLogger(app);
 
   const config = new DocumentBuilder()

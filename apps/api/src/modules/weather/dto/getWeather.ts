@@ -1,8 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsBooleanString, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
-export class GetWeatherDto {
+export class GetWeatherRequestQuery {
   @ApiProperty({
     description: 'location of weather query',
     example: 'hoi an, viet nam',
@@ -10,45 +10,36 @@ export class GetWeatherDto {
   @IsString()
   location: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'get weather from date',
     example: '2020-10-01',
   })
-  @IsString()
   @IsOptional()
+  @IsString()
   fromDate?: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'get weather to date',
     example: '2020-10-01',
   })
-  @IsString()
   @IsOptional()
+  @IsString()
   toDate?: string;
 
-  @ApiProperty({
-    description: 'include days weather',
-    example: true,
-  })
-  @IsBooleanString()
-  @IsOptional()
-  @Transform(({ value }) => {
-    if (value === 'true') return true;
-    if (value === 'false') return false;
-    return value;
-  })
-  days?: boolean;
-
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'include current weather',
     example: true,
   })
-  @IsBooleanString()
   @IsOptional()
+  @IsBoolean()
   @Transform(({ value }) => {
     if (value === 'true') return true;
     if (value === 'false') return false;
-    return value;
+    return Boolean(value);
   })
   current?: boolean;
+}
+
+export class GetWeatherQuery {
+  constructor(public readonly option: GetWeatherRequestQuery) {}
 }

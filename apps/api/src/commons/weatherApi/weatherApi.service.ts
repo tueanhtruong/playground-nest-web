@@ -33,7 +33,6 @@ export class WeatherApiService {
       unitGroup: 'metric',
       contentType: 'json',
     }).toString()}`;
-
     const response = await this.httpService.axiosRef.get(url);
     return response.data;
   }
