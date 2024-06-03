@@ -2,7 +2,10 @@
   "files.eol": "\n",
   "editor.tabSize": 2,
   "editor.renderWhitespace": "all",
-  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll": "explicit"
+  },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },

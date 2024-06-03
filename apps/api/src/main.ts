@@ -12,6 +12,11 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   useLogger(app);
 
+  app.enableCors({
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    origin: '*',
+  });
+
   const config = new DocumentBuilder()
     .setTitle(title)
     .setDescription(description)

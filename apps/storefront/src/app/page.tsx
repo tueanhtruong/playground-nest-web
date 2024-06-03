@@ -1,20 +1,15 @@
-import Link from 'next/link';
-import { Button, Spinner } from 'ui';
+'use client';
 
-export const metadata = {
-  title: 'Store | Kitchen Sink',
-};
+import { Button } from '@mantine/core';
+import { authentication } from 'src/modules';
 
 export default function Store() {
   return (
     <div className="container">
-      <h1 className="title">
-        Store <br />
-        <span>Kitchen Sink</span>
-      </h1>
-      <Link href={'/dev'}>DEV page</Link>
-      <Button>Test Button</Button>
-      <Spinner />
+      <h1 className="title">Dev Page</h1>
+      <Button onClick={() => authentication({ openSignIn: true })}>
+        Sign In
+      </Button>
     </div>
   );
 }
