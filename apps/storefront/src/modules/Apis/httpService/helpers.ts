@@ -95,3 +95,14 @@ export const configApiInstance = (
     return Promise.reject(error);
   });
 };
+
+export const saveToLocalStorage = (key: string, value: any) => {
+  if (!value) {
+    localStorage.removeItem(key);
+    return;
+  }
+  localStorage.setItem(
+    key,
+    typeof value === 'object' ? JSON.stringify(value) : value.toString(),
+  );
+};

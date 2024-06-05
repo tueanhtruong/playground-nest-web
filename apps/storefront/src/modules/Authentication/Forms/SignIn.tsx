@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Flex, Text, TextInput, Title } from '@mantine/core';
 import { useForm } from 'react-hook-form';
 import { FaRegUser } from 'react-icons/fa';
-import { useInitSignIn } from 'src/modules';
+import { authentication, saveToLocalStorage, useInitSignIn } from 'src/modules';
 import * as Yup from 'yup';
 
 type SignInForm = {
@@ -15,11 +15,20 @@ const schema = Yup.object({
 
 export const SignIn: React.FC = () => {
   const { isPending, signIn } = useInitSignIn({
-    onSuccess({ data }) {},
+    onSuccess({ data }) {
+      saveToLocalStorage('token', data.access_token);
+      authentication({ isAuthenticated: true, openSignIn: false });
+    },
+    onError(error) {
+      setError('username', {
+        message: error.message ?? 'Username is not correct!',
+      });
+    },
   });
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<SignInForm>({
     resolver: yupResolver(schema),

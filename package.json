@@ -3,9 +3,11 @@
   "scripts": {
     "build": "turbo build",
     "clean": "turbo clean",
+    "start": "turbo start",
     "dev": "turbo dev --no-cache  --continue --concurrency=12",
     "dev:api": "turbo dev --no-cache --filter=api",
     "dev:web": "turbo dev --no-cache --filter=storefront",
+    "start:api": "turbo start --filter=api",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo lint",
     "test": "turbo test",

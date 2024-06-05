@@ -24,6 +24,7 @@ export {
   getResponseData,
   newCancelToken,
   responseWrapper,
+  saveToLocalStorage,
 } from './helpers';
 
 export type {

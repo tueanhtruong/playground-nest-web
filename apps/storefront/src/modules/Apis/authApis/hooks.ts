@@ -1,7 +1,13 @@
-import { UseMutationOptions, useMutation } from '@tanstack/react-query';
+'use client';
+import {
+  UseMutationOptions,
+  UseQueryOptions,
+  useMutation,
+  useQuery,
+} from '@tanstack/react-query';
 import { ApiResponseType, responseWrapper } from 'src/modules';
-import { initLogin, initRegister } from './apis';
-import { AuthResponse, InitSignIn, InitSignUp } from './types';
+import { getMyProfile, initLogin, initRegister } from './apis';
+import { AuthResponse, InitSignIn, InitSignUp, MyProfile } from './types';
 
 export function useInitSignIn(
   options?: UseMutationOptions<
@@ -45,5 +51,30 @@ export function useInitSignUp(
     isPending,
     error,
     reset,
+  };
+}
+
+export function useGetMyProfile(
+  options?: Partial<
+    UseQueryOptions<unknown, Error, ApiResponseType<MyProfile>>
+  >,
+) {
+  const { data, error, isPending, refetch } = useQuery<
+    unknown,
+    Error,
+    ApiResponseType<MyProfile>
+  >({
+    queryKey: ['users', 'me'],
+    queryFn: () => {
+      return responseWrapper<ApiResponseType<MyProfile>>(getMyProfile);
+    },
+    enabled: true,
+    ...options,
+  });
+  return {
+    data,
+    isPending,
+    error,
+    refetch,
   };
 }

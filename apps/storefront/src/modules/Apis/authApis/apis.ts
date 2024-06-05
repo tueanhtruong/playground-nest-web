@@ -1,5 +1,5 @@
 import { httpService, newCancelToken } from 'src/modules';
-import { AuthResponse, InitSignIn, InitSignUp } from './types';
+import { AuthResponse, InitSignIn, InitSignUp, MyProfile } from './types';
 
 const initLogin = (payload: Readonly<InitSignIn>) =>
   httpService.post<AuthResponse>('/users/login', payload, newCancelToken());
@@ -7,4 +7,7 @@ const initLogin = (payload: Readonly<InitSignIn>) =>
 const initRegister = (payload: Readonly<InitSignUp>) =>
   httpService.post('/users', payload, newCancelToken());
 
-export { initLogin, initRegister };
+const getMyProfile = () =>
+  httpService.get<MyProfile>('/users/me', newCancelToken());
+
+export { getMyProfile, initLogin, initRegister };

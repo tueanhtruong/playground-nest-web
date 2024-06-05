@@ -8,3 +8,8 @@ export type InitSignUp = {
 export type AuthResponse = {
   access_token: string;
 };
+
+export type MyProfile = {
+  username: string;
+  displayName: string;
+};

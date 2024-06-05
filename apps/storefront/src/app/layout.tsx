@@ -3,7 +3,12 @@ import '../styles.css';
 
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  HydrationBoundary,
+  QueryClient,
+  QueryClientProvider,
+  dehydrate,
+} from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { AuthenticationModal } from 'src/modules';
 const queryClient = new QueryClient();
@@ -13,6 +18,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const dehydratedState = dehydrate(queryClient);
   return (
     <html lang="en">
       <head>
@@ -20,10 +26,13 @@ export default function RootLayout({
       </head>
       <body>
         <QueryClientProvider client={queryClient}>
-          <MantineProvider>
-            {children}
-            <AuthenticationModal /> <ReactQueryDevtools initialIsOpen={false} />
-          </MantineProvider>
+          <HydrationBoundary state={dehydratedState}>
+            <MantineProvider>
+              {children}
+              <AuthenticationModal />
+              <ReactQueryDevtools initialIsOpen={false} />
+            </MantineProvider>
+          </HydrationBoundary>
         </QueryClientProvider>
       </body>
     </html>
