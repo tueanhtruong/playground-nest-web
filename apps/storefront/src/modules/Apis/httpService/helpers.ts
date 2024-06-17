@@ -79,7 +79,7 @@ export const configApiInstance = (
   api.axiosInstance.interceptors.request.use((config) => {
     // eslint-disable-next-line no-param-reassign
     if (isPrivateApi) {
-      const token = localStorage.getItem('token');
+      const token = getLocalStorageItem('token');
       config.headers.Authorization = `Bearer ${token}`;
 
       // config.headers['X-Customer'] = token;
@@ -105,4 +105,10 @@ export const saveToLocalStorage = (key: string, value: any) => {
     key,
     typeof value === 'object' ? JSON.stringify(value) : value.toString(),
   );
+};
+
+export const getLocalStorageItem = (key: string, parse: boolean = false) => {
+  const item = localStorage.getItem(key);
+  if (parse) return item ? JSON.parse(item) : null;
+  return item;
 };

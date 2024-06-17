@@ -5,12 +5,13 @@ import {
   AuthenticationState,
   authentication,
   useGetMyProfile,
+  useSignOut,
 } from 'src/modules';
 
 export const UserNameDisplay: React.FC = () => {
   const [state, setState] = React.useState<AuthenticationAction>({});
   const { data, refetch } = useGetMyProfile({ enabled: false });
-
+  const { signOut } = useSignOut();
   React.useEffect(() => {
     if (state.isAuthenticated) {
       refetch();
@@ -26,9 +27,7 @@ export const UserNameDisplay: React.FC = () => {
   return isShowAvatar ? (
     <Flex gap={'md'}>
       <Text>{data.data.displayName}</Text>
-      <Button onClick={() => authentication({ isAuthenticated: false })}>
-        Sign Out
-      </Button>
+      <Button onClick={signOut}>Sign Out</Button>
     </Flex>
   ) : (
     <Button onClick={() => authentication({ openSignIn: true })}>

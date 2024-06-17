@@ -10,7 +10,9 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { AuthenticationModal } from 'src/modules';
+import React from 'react';
+import { AuthenticationModal, authentication } from 'src/modules';
+import { getLocalStorageItem } from 'src/modules/Apis/httpService/helpers';
 const queryClient = new QueryClient();
 
 export default function RootLayout({
@@ -18,6 +20,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  React.useEffect(() => {
+    const isPreAuthenticated = getLocalStorageItem('token');
+    if (isPreAuthenticated) {
+      authentication({ isAuthenticated: true });
+    }
+  }, []);
+
   const dehydratedState = dehydrate(queryClient);
   return (
     <html lang="en">
@@ -28,7 +37,7 @@ export default function RootLayout({
         <QueryClientProvider client={queryClient}>
           <HydrationBoundary state={dehydratedState}>
             <MantineProvider>
-              {children}
+              <div className="container mx-auto h-full">{children}</div>
               <AuthenticationModal />
               <ReactQueryDevtools initialIsOpen={false} />
             </MantineProvider>

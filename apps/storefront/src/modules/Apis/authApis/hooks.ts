@@ -5,9 +5,24 @@ import {
   useMutation,
   useQuery,
 } from '@tanstack/react-query';
-import { ApiResponseType, responseWrapper } from 'src/modules';
+import {
+  ApiResponseType,
+  authentication,
+  responseWrapper,
+  saveToLocalStorage,
+} from 'src/modules';
 import { getMyProfile, initLogin, initRegister } from './apis';
 import { AuthResponse, InitSignIn, InitSignUp, MyProfile } from './types';
+
+export function useSignOut() {
+  const signOut = () => {
+    saveToLocalStorage('token', null);
+    authentication({ isAuthenticated: false });
+  };
+  return {
+    signOut,
+  };
+}
 
 export function useInitSignIn(
   options?: UseMutationOptions<
