@@ -2,15 +2,10 @@
 FROM node:20-alpine AS builder
 
 # ARG DATABASE_URL
-# ENV DATABASE_URL=$DATABASE_URL
-# ARG JWT_SECRET
-# ENV JWT_SECRET=$JWT_SECRET
-# ARG API_KEY
-# ENV API_KEY=$API_KEY
-# ARG WEATHER_API_KEY
-# ENV WEATHER_API_KEY=$WEATHER_API_KEY
-# ARG WEATHER_API_URL
-# ENV WEATHER_API_URL=$WEATHER_API_URL
+
+ARG BUILD_TYPE
+
+ENV BUILD_TYPE=${BUILD_TYPE}
 
 RUN apk add --no-cache libc6-compat
 RUN corepack enable
@@ -27,11 +22,22 @@ COPY packages/jest-presets ./packages/jest-presets
 COPY packages/logger ./packages/logger
 COPY packages/tsconfig ./packages/tsconfig
 COPY apps/api ./apps/api
+COPY apps/storefront ./apps/storefront
 # Install app dependencies
-RUN pnpm install --frozen-lockfile
 
 # Creates a "dist" folder with the production build
-RUN pnpm run build
+# RUN pnpm install --frozen-lockfile
+
+RUN if [ "$BUILD_TYPE" = "api" ]; then \
+        pnpm install --frozen-lockfile; \
+        pnpm run build:api; \
+    elif [ "$BUILD_TYPE" = "web" ]; then \
+        pnpm install --frozen-lockfile; \
+        pnpm run build:web; \
+    else \
+        echo "No valid build type specified"; \
+        exit 1; \
+    fi
 
 # Start the server using the production build
-CMD [ "pnpm", "run", "start:api" ]
+CMD pnpm run start:"$BUILD_TYPE"
