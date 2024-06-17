@@ -10,13 +10,10 @@ import {
 
 export const UserNameDisplay: React.FC = () => {
   const [state, setState] = React.useState<AuthenticationAction>({});
-  const { data, refetch } = useGetMyProfile({ enabled: false });
+  const { data, isFetching } = useGetMyProfile({
+    enabled: state.isAuthenticated === true,
+  });
   const { signOut } = useSignOut();
-  React.useEffect(() => {
-    if (state.isAuthenticated) {
-      refetch();
-    }
-  }, [state]);
 
   React.useEffect(() => {
     return AuthenticationState.subscribe(setState);
@@ -30,7 +27,10 @@ export const UserNameDisplay: React.FC = () => {
       <Button onClick={signOut}>Sign Out</Button>
     </Flex>
   ) : (
-    <Button onClick={() => authentication({ openSignIn: true })}>
+    <Button
+      onClick={() => authentication({ openSignIn: true })}
+      loading={isFetching}
+    >
       Sign In
     </Button>
   );

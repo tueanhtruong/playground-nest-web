@@ -18,6 +18,7 @@ WORKDIR /app
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json ./
 # Copy app source
 COPY packages/eslint-config-custom-server ./packages/eslint-config-custom-server
+COPY packages/eslint-config-custom ./packages/eslint-config-custom
 COPY packages/jest-presets ./packages/jest-presets
 COPY packages/logger ./packages/logger
 COPY packages/tsconfig ./packages/tsconfig

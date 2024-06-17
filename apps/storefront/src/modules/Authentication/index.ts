@@ -1,4 +1,5 @@
 export { AuthenticationModal } from './AuthenticationModal';
+export * from './hooks';
 export {
   AuthenticationState,
   authentication,

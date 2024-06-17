@@ -22,7 +22,7 @@ export {
   authResponseWrapper,
   configApiInstance,
   getResponseData,
-  newCancelToken,
+  newAbortController,
   responseWrapper,
   saveToLocalStorage,
 } from './helpers';

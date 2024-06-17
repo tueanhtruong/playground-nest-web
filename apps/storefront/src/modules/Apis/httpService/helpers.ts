@@ -1,4 +1,4 @@
-import { ApisauceInstance, CancelToken } from 'apisauce';
+import { ApisauceInstance } from 'apisauce';
 
 type ApiCall = (..._args: any[]) => Promise<any>;
 
@@ -36,13 +36,11 @@ export async function authResponseWrapper<T>(
   });
 }
 
-export function newCancelToken(timeout = 30000) {
-  const source = CancelToken.source();
-  setTimeout(() => {
-    source.cancel();
-  }, timeout);
+export function newAbortController(timeout = 30000) {
+  const abortController = new AbortController();
+  setTimeout(() => abortController.abort(), timeout || 0);
 
-  return { cancelToken: source.token };
+  return { signal: abortController.signal };
 }
 
 export const getResponseData = (data: { data: any }) => data.data;
@@ -90,7 +88,8 @@ export const configApiInstance = (
   api.axiosInstance.interceptors.response.use(undefined, (error) => {
     if (error.response.status === 401) {
       // handle call api error, logout user
-      // console.log(error.response.data);
+      console.log(error.response.data);
+      saveToLocalStorage('token', null);
     }
     return Promise.reject(error);
   });

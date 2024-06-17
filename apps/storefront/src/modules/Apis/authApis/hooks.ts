@@ -74,7 +74,7 @@ export function useGetMyProfile(
     UseQueryOptions<unknown, Error, ApiResponseType<MyProfile>>
   >,
 ) {
-  const { data, error, isPending, refetch } = useQuery<
+  const { data, error, refetch, isFetching } = useQuery<
     unknown,
     Error,
     ApiResponseType<MyProfile>
@@ -83,12 +83,11 @@ export function useGetMyProfile(
     queryFn: () => {
       return responseWrapper<ApiResponseType<MyProfile>>(getMyProfile);
     },
-    enabled: true,
     ...options,
   });
   return {
     data,
-    isPending,
+    isFetching,
     error,
     refetch,
   };
