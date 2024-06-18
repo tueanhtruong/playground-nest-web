@@ -11,6 +11,7 @@ import {
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React from 'react';
+import { Navbar } from 'src/components';
 import { AuthenticationModal, authentication } from 'src/modules';
 import { getLocalStorageItem } from 'src/modules/Apis/httpService/helpers';
 const queryClient = new QueryClient();
@@ -33,11 +34,17 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <body>
+      <body className="text-primary-800">
         <QueryClientProvider client={queryClient}>
           <HydrationBoundary state={dehydratedState}>
             <MantineProvider>
-              <div className="container mx-auto h-full">{children}</div>
+              <Navbar />
+              <main
+                className="w-full min-h-full overflow-y-scroll pt-20"
+                style={{ scrollbarWidth: 'thin' }}
+              >
+                <div className="container mx-auto">{children}</div>
+              </main>
               <AuthenticationModal />
               <ReactQueryDevtools initialIsOpen={false} />
             </MantineProvider>
