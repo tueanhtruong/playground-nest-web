@@ -19,7 +19,7 @@ export const Navbar: React.FC = () => {
             alt="logo"
             width={400}
             height={200}
-            className="h-16 w-fit object-contain"
+            className="h-12 w-fit object-contain"
           />
         </Link>
         <NavRightContent />
