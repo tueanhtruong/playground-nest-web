@@ -25,9 +25,16 @@ export const NavRightContent: React.FC = () => {
 
   return isShowAvatar ? (
     <Flex gap={'md'} align={'center'}>
-      <Menu shadow="md">
+      <Menu shadow="md" position="bottom-end">
         <Menu.Target>
-          <Avatar variant="filled" size={'md'} className="cursor-pointer" />
+          <Avatar
+            variant="filled"
+            size={'lg'}
+            className="cursor-pointer"
+            src={
+              'https://storage.googleapis.com/static-files-demo-app/9720037.jpg'
+            }
+          />
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Label>{data.data.displayName}</Menu.Label>
