@@ -35,7 +35,9 @@ export const EditItemWrapper: React.FC<EditItemWrapperProps> = ({
             size="md"
             aria-label="Edit Item"
             onClick={callAllHandlers(onEdit, () =>
-              schemaType ? setEditingItem(schemaType, id) : undefined,
+              schemaType
+                ? setEditingItem({ schema: schemaType, id })
+                : undefined,
             )}
             radius={0}
           >
@@ -46,7 +48,7 @@ export const EditItemWrapper: React.FC<EditItemWrapperProps> = ({
             size="md"
             aria-label="Delete Item"
             onClick={callAllHandlers(onDelete, () =>
-              schemaType ? deleteItem(schemaType, id) : undefined,
+              schemaType ? deleteItem({ schema: schemaType, id }) : undefined,
             )}
             color="red"
             radius={0}

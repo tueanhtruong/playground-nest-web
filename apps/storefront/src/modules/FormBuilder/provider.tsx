@@ -2,6 +2,7 @@ import React, { PropsWithChildren } from 'react';
 import {
   FormBuilderContextProvider,
   FormBuilderContextType,
+  GridBuilderType,
   SchemaTypes,
 } from './context';
 
@@ -22,12 +23,35 @@ type FormAction = {
   >;
 };
 
-const reducer = (state: FormBuilderContextType, action: FormAction) => {
+const reducer = (
+  state: FormBuilderContextType,
+  action: FormAction,
+): FormBuilderContextType => {
   switch (action.type) {
     case FormActionType.UPSERT:
       return { ...state, ...action.payload };
     case FormActionType.EDIT:
-      return { ...state, ...action.payload };
+      const { editingItem } = action.payload;
+
+      if (editingItem) {
+        const { schema, id } = editingItem;
+
+        if (schema && id) {
+          const schemaItems = schema === 'uiSchema' ? state.uiSchema : [];
+          return {
+            ...state,
+            editingItem: { schema, id },
+            selectedItem: {
+              schema,
+              item: schemaItems.find(
+                (item) => item.id === id,
+              ) as GridBuilderType,
+            },
+          };
+        }
+      }
+
+      return { ...state, editingItem: undefined, selectedItem: undefined };
     case FormActionType.DELETE:
       const { deletingItem } = action.payload;
       if (deletingItem) {
@@ -43,27 +67,31 @@ const reducer = (state: FormBuilderContextType, action: FormAction) => {
   }
 };
 
-const emptyFunction = () => {};
+export const emptyFunction = (...args: any[]) => {};
 
 export const FormBuilderProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
   const [state, dispatch] = React.useReducer(reducer, {
-    uiSchema: [],
+    uiSchema: [
+      {
+        id: '1',
+        columns: 1,
+        refNames: {},
+      },
+    ],
     setEditingItem: emptyFunction,
     deleteItem: emptyFunction,
     handleUpsertItems: emptyFunction,
   });
 
-  const setEditingItem = (
-    schema: EnumValues<typeof SchemaTypes>,
-    id: string,
-  ) => {
+  const setEditingItem = (item?: {
+    schema: EnumValues<typeof SchemaTypes>;
+    id: string;
+  }) => {
     dispatch({
       type: FormActionType.EDIT,
-      payload: {
-        editingItem: { schema, id },
-      },
+      payload: item ? { editingItem: item } : {},
     });
   };
 
@@ -76,12 +104,13 @@ export const FormBuilderProvider: React.FC<PropsWithChildren> = ({
     });
   };
 
-  const deleteItem = (schema: EnumValues<typeof SchemaTypes>, id: string) => {
+  const deleteItem = (item?: {
+    schema: EnumValues<typeof SchemaTypes>;
+    id: string;
+  }) => {
     dispatch({
       type: FormActionType.DELETE,
-      payload: {
-        deletingItem: { schema, id },
-      },
+      payload: item ? { deletingItem: item } : {},
     });
   };
 
@@ -89,9 +118,9 @@ export const FormBuilderProvider: React.FC<PropsWithChildren> = ({
     <FormBuilderContextProvider
       value={{
         ...state,
-        setEditingItem,
         handleUpsertItems,
         deleteItem,
+        setEditingItem,
       }}
     >
       {children}
