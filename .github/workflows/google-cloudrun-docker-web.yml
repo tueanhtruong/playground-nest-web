@@ -94,7 +94,7 @@ jobs:
 
       - name: Write env file
         run: |-
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> ./apps/storefront/.env
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> ./apps/web/.env
 
       - name: Build and Push Container
         run: |-

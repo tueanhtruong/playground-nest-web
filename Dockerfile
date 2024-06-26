@@ -16,18 +16,15 @@ WORKDIR /app
 
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json ./
+
 # Copy app source
 COPY packages/eslint-config-custom-server ./packages/eslint-config-custom-server
 COPY packages/eslint-config-custom ./packages/eslint-config-custom
 COPY packages/jest-presets ./packages/jest-presets
 COPY packages/logger ./packages/logger
 COPY packages/tsconfig ./packages/tsconfig
-COPY apps/api ./apps/api
-COPY apps/storefront ./apps/storefront
-# Install app dependencies
+COPY apps/"$BUILD_TYPE" ./apps/"$BUILD_TYPE"
 
-# Creates a "dist" folder with the production build
-# RUN pnpm install --frozen-lockfile
 
 RUN if [ "$BUILD_TYPE" = "api" ]; then \
         pnpm install --frozen-lockfile; \
