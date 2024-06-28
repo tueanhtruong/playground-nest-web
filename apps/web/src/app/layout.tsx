@@ -34,16 +34,16 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <body className="text-primary-800">
+      <body className="text-primary-800 bg-primary-50 overflow-hidden">
         <QueryClientProvider client={queryClient}>
           <HydrationBoundary state={dehydratedState}>
             <MantineProvider>
               <Navbar />
               <main
-                className="w-full min-h-full overflow-y-scroll pt-20"
-                style={{ scrollbarWidth: 'thin' }}
+                className="w-full overflow-y-scroll mt-16 py-4"
+                style={{ scrollbarWidth: 'thin', height: 'calc(100% - 4rem)' }}
               >
-                <div className="container mx-auto">{children}</div>
+                <div className="container mx-auto h-fit">{children}</div>
               </main>
               <AuthenticationModal />
               <ReactQueryDevtools initialIsOpen={false} />

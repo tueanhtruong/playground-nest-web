@@ -1,4 +1,5 @@
 import React, { PropsWithChildren } from 'react';
+import { makeAGridItem } from 'src/modules/FormBuilder/makers';
 import {
   FormBuilderContextProvider,
   FormBuilderContextType,
@@ -19,7 +20,7 @@ type FormAction = {
   payload: Partial<
     FormBuilderContextType & {
       deletingItem: { schema: EnumValues<typeof SchemaTypes>; id: string };
-    }
+    } & { schema: GridBuilderType }
   >;
 };
 
@@ -29,7 +30,11 @@ const reducer = (
 ): FormBuilderContextType => {
   switch (action.type) {
     case FormActionType.UPSERT:
-      return { ...state, ...action.payload };
+      const { uiSchema } = state;
+      const newSchema: GridBuilderType | undefined = action.payload.schema;
+      if (newSchema) uiSchema[newSchema.id] = newSchema;
+      return { ...state, uiSchema };
+
     case FormActionType.EDIT:
       const { editingItem } = action.payload;
 
@@ -37,15 +42,14 @@ const reducer = (
         const { schema, id } = editingItem;
 
         if (schema && id) {
-          const schemaItems = schema === 'uiSchema' ? state.uiSchema : [];
+          const schemaItems: { [key: string]: GridBuilderType } =
+            schema === 'uiSchema' ? state.uiSchema : {};
           return {
             ...state,
             editingItem: { schema, id },
             selectedItem: {
               schema,
-              item: schemaItems.find(
-                (item) => item.id === id,
-              ) as GridBuilderType,
+              item: schemaItems[id] as GridBuilderType,
             },
           };
         }
@@ -55,11 +59,11 @@ const reducer = (
     case FormActionType.DELETE:
       const { deletingItem } = action.payload;
       if (deletingItem) {
+        const { uiSchema } = state;
+        delete uiSchema[deletingItem.id];
         return {
           ...state,
-          uiSchema: state.uiSchema.filter(
-            (item) => item.id !== deletingItem.id,
-          ),
+          uiSchema,
         };
       }
     default:
@@ -72,17 +76,13 @@ export const emptyFunction = (...args: any[]) => {};
 export const FormBuilderProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
+  const initSchema = React.useMemo(() => makeAGridItem(), []);
+  const initSchema2 = React.useMemo(() => makeAGridItem(), []);
   const [state, dispatch] = React.useReducer(reducer, {
-    uiSchema: [
-      {
-        id: '1',
-        columns: 1,
-        refNames: {},
-      },
-    ],
+    uiSchema: { [initSchema.id]: initSchema, [initSchema2.id]: initSchema2 },
     setEditingItem: emptyFunction,
     deleteItem: emptyFunction,
-    handleUpsertItems: emptyFunction,
+    handleUpsertItem: emptyFunction,
   });
 
   const setEditingItem = (item?: {
@@ -95,12 +95,10 @@ export const FormBuilderProvider: React.FC<PropsWithChildren> = ({
     });
   };
 
-  const handleUpsertItems = (schema: FormBuilderContextType['uiSchema']) => {
+  const handleUpsertItem = (schema: GridBuilderType) => {
     dispatch({
       type: FormActionType.UPSERT,
-      payload: {
-        uiSchema: schema,
-      },
+      payload: { schema },
     });
   };
 
@@ -118,7 +116,7 @@ export const FormBuilderProvider: React.FC<PropsWithChildren> = ({
     <FormBuilderContextProvider
       value={{
         ...state,
-        handleUpsertItems,
+        handleUpsertItem,
         deleteItem,
         setEditingItem,
       }}

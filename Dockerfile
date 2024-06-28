@@ -1,8 +1,6 @@
 # Base image
 FROM node:20-alpine AS builder
 
-# ARG DATABASE_URL
-
 ARG BUILD_TYPE
 
 ENV BUILD_TYPE=${BUILD_TYPE}

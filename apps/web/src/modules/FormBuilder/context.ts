@@ -13,7 +13,7 @@ export const SchemaTypes = {
 } as const;
 
 export type FormBuilderContextType = {
-  uiSchema: GridBuilderType[];
+  uiSchema: { [key: string]: GridBuilderType };
   editingItem?: {
     schema: EnumValues<typeof SchemaTypes>;
     id: string;
@@ -26,7 +26,7 @@ export type FormBuilderContextType = {
     schema: EnumValues<typeof SchemaTypes>;
     id: string;
   }) => void;
-  handleUpsertItems: (schema: GridBuilderType[]) => void;
+  handleUpsertItem: (schema: GridBuilderType) => void;
   selectedItem?: {
     schema: EnumValues<typeof SchemaTypes>;
     item: GridBuilderType;
@@ -35,10 +35,10 @@ export type FormBuilderContextType = {
 
 export const FormBuilderContext =
   React.createContext<FormBuilderContextType | null>({
-    uiSchema: [],
+    uiSchema: {},
     setEditingItem: emptyFunction,
     deleteItem: emptyFunction,
-    handleUpsertItems: emptyFunction,
+    handleUpsertItem: emptyFunction,
   });
 
 export const FormBuilderContextProvider = FormBuilderContext.Provider;

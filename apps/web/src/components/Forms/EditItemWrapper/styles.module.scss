@@ -1,12 +1,12 @@
 .wrapper {
   position: relative;
   z-index: 1;
-  filter: drop-shadow(1px 2px 4px hsla(0, 0%, 0%, 0));
+  filter: drop-shadow(1px 1px 2px hsla(0, 0%, 0%, 0));
   transition: 0.2s all linear;
 
   .floating-buttons {
     position: absolute;
-    right: 3rem;
+    right: 4rem;
     top: 0px;
     opacity: 0;
     transition: inherit;
@@ -27,7 +27,7 @@
   }
 
   &:hover {
-    filter: drop-shadow(1px 2px 4px hsl(0deg 0% 0% / 0.3));
+    filter: drop-shadow(1px 1px 2px hsl(0deg 0% 0% / 0.3));
     .floating-buttons {
       opacity: 1;
       top: -28px;

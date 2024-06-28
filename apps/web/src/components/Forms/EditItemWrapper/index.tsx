@@ -1,20 +1,13 @@
 import { ActionIcon, Flex } from '@mantine/core';
 import { PropsWithChildren } from 'react';
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
-import { callAllHandlers } from 'src/hooks';
-import {
-  EnumValues,
-  SchemaTypes,
-  useFormBuilderContext,
-} from 'src/modules/FormBuilder';
 import styles from './styles.module.scss';
 
 export type EditItemWrapperProps = PropsWithChildren<
   Partial<{
-    schemaType: EnumValues<typeof SchemaTypes>;
-    id: string;
     onEdit: (e: React.MouseEvent) => void;
     onDelete: (e: React.MouseEvent) => void;
+    disabledDelete?: boolean;
   }>
 >;
 
@@ -22,10 +15,8 @@ export const EditItemWrapper: React.FC<EditItemWrapperProps> = ({
   children,
   onDelete,
   onEdit,
-  schemaType,
-  id = '',
+  disabledDelete,
 }) => {
-  const { setEditingItem, deleteItem } = useFormBuilderContext();
   return (
     <div className={styles.wrapper}>
       <Flex className={styles['floating-buttons']}>
@@ -34,11 +25,7 @@ export const EditItemWrapper: React.FC<EditItemWrapperProps> = ({
             variant="white"
             size="md"
             aria-label="Edit Item"
-            onClick={callAllHandlers(onEdit, () =>
-              schemaType
-                ? setEditingItem({ schema: schemaType, id })
-                : undefined,
-            )}
+            onClick={onEdit}
             radius={0}
           >
             <FaRegEdit />
@@ -47,11 +34,10 @@ export const EditItemWrapper: React.FC<EditItemWrapperProps> = ({
             variant="white"
             size="md"
             aria-label="Delete Item"
-            onClick={callAllHandlers(onDelete, () =>
-              schemaType ? deleteItem({ schema: schemaType, id }) : undefined,
-            )}
+            onClick={onDelete}
             color="red"
             radius={0}
+            disabled={disabledDelete}
           >
             <FaRegTrashAlt />
           </ActionIcon>

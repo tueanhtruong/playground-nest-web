@@ -1,16 +1,27 @@
 import { Flex } from '@mantine/core';
-import React, { PropsWithChildren } from 'react';
+import classnames from 'classnames';
+import React from 'react';
+import { OverridableComponentProps } from 'src/hooks';
 
-export type PanelProps = PropsWithChildren<{
-  stickyHeight?: boolean;
-}>;
+export type PanelProps = OverridableComponentProps<
+  'div',
+  { stickyHeight?: boolean }
+>;
 
-export const Panel: React.FC<PanelProps> = ({ stickyHeight, children }) => {
+export const Panel: React.FC<PanelProps> = ({
+  stickyHeight,
+  children,
+  className,
+  style = {},
+  ...rest
+}) => {
   return (
     <Flex
       direction={'column'}
-      className="rounded-lg w-full bg-primary-100 p-6"
-      style={stickyHeight ? { height: 'calc(100vh - 6rem)' } : undefined}
+      gap={'md'}
+      className={classnames('rounded-lg w-full bg-white p-4', className)}
+      style={stickyHeight ? { ...style, height: 'calc(100vh - 6rem)' } : style}
+      {...rest}
     >
       {children}
     </Flex>

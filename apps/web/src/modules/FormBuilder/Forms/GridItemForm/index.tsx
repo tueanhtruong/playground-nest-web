@@ -16,9 +16,10 @@ type GridItemForm = {
 };
 
 export const GridItemForm: React.FC = () => {
-  const { selectedItem, setEditingItem, handleUpsertItems } =
+  const { selectedItem, setEditingItem, handleUpsertItem } =
     useFormBuilderContext();
-  const { item } = selectedItem || { item: { id: '', columns: 0 } };
+
+  const { item } = selectedItem ?? {};
   const {
     handleSubmit,
     setValue,
@@ -30,16 +31,20 @@ export const GridItemForm: React.FC = () => {
       columns: item?.columns,
     },
   });
-  const onSubmit = (data: GridItemForm) => {
-    const updatedItem: GridBuilderType = {
-      ...item,
-      ...data,
-      refNames: {},
-    };
-    handleUpsertItems([updatedItem]);
-    setEditingItem();
-  };
+
   if (!selectedItem) return null;
+
+  const onSubmit = (data: GridItemForm) => {
+    if (item) {
+      const updatedItem: GridBuilderType = {
+        ...item,
+        ...data,
+      };
+
+      handleUpsertItem(updatedItem);
+      setEditingItem();
+    }
+  };
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} id="grid-form">

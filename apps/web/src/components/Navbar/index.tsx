@@ -5,7 +5,7 @@ import { NavRightContent } from './NavRightContent';
 
 export const Navbar: React.FC = () => {
   return (
-    <Flex className="h-16 fixed top-0 left-0 right-0 bg-primary-300 shadow-md z-20 pr-[12px]">
+    <Flex className="h-16 fixed top-0 left-0 right-0 bg-primary-200 shadow-md z-20 pr-[12px]">
       <Flex
         align={'center'}
         justify={'space-between'}
