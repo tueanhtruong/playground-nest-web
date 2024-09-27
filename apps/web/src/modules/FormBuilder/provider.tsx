@@ -77,9 +77,8 @@ export const FormBuilderProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
   const initSchema = React.useMemo(() => makeAGridItem(), []);
-  const initSchema2 = React.useMemo(() => makeAGridItem(), []);
   const [state, dispatch] = React.useReducer(reducer, {
-    uiSchema: { [initSchema.id]: initSchema, [initSchema2.id]: initSchema2 },
+    uiSchema: { [initSchema.id]: initSchema },
     setEditingItem: emptyFunction,
     deleteItem: emptyFunction,
     handleUpsertItem: emptyFunction,

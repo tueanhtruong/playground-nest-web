@@ -1,16 +1,8 @@
-# Turborepo kitchen sink starter
+# Turborepo application starter
 
-This is an official starter Turborepo with multiple meta-frameworks all working in harmony and sharing packages.
+This is my custom starter Turborepo for Nest Api and Next Web with multiple meta-frameworks all working in harmony and sharing packages.
 
 This example also shows how to use [Workspace Configurations](https://turbo.build/repo/docs/core-concepts/monorepos/configuring-workspaces).
-
-## Using this example
-
-Run the following command:
-
-```sh
-npx create-turbo@latest -e kitchen-sink
-```
 
 ## What's inside?
 
@@ -18,12 +10,10 @@ This Turborepo includes the following packages and apps:
 
 ### Apps and Packages
 
-- `api`: an [Express](https://expressjs.com/) server
-- `storefront`: a [Next.js](https://nextjs.org/) app
-- `admin`: a [Vite](https://vitejs.dev/) single page app
-- `blog`: a [Remix](https://remix.run/) blog
+- `api`: an [Nest](https://nestjs.com/) server
+- `web`: a [Next.js](https://nextjs.org/) app
 - `logger`: isomorphic logger (a small wrapper around console.log)
-- `ui`: a dummy React UI library (which contains a single `<CounterButton>` component)
+- `ui`: a dummy React UI library (which contains some components)
 - `scripts`: Jest and ESLint configurations
 - `tsconfig`: tsconfig.json's used throughout the monorepo
 
