@@ -29,7 +29,7 @@ export const NavRightContent: React.FC = () => {
         <Menu.Target>
           <Avatar
             variant="filled"
-            size={'lg'}
+            size={'md'}
             className="cursor-pointer"
             src={
               'https://storage.googleapis.com/static-files-demo-app/9720037.jpg'
@@ -43,13 +43,6 @@ export const NavRightContent: React.FC = () => {
             <Link href={ROUTES.forms}>
               <Text size="sm" c="blue">
                 Forms
-              </Text>
-            </Link>
-          </Menu.Item>
-          <Menu.Item>
-            <Link href={ROUTES.createForm}>
-              <Text size="sm" c="blue">
-                Create a Form
               </Text>
             </Link>
           </Menu.Item>

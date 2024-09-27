@@ -13,9 +13,7 @@ export const Navbar: React.FC = () => {
       >
         <Link href="/">
           <Image
-            src={
-              'https://storage.googleapis.com/static-files-demo-app/logo.png'
-            }
+            src={'/logo.webp'}
             alt="logo"
             width={400}
             height={200}
