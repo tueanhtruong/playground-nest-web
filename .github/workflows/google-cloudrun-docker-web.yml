@@ -44,10 +44,16 @@
 
 name: Build and Deploy WEB to Cloud Run
 
-on:
-  push:
-    branches: ['master']
+# on:
+#   push:
+#     branches: ['master']
 
+on:
+  workflow_run:
+    workflows: ['Lint']
+    types:
+      - completed
+  workflow_dispatch:
 env:
   PROJECT_ID: fluent-edition-425006-v1
   GAR_LOCATION: asia-southeast1
