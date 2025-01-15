@@ -56,11 +56,6 @@ on:
   workflow_dispatch:
 
 env:
-  # PROJECT_ID: fluent-edition-425006-v1
-  # GAR_LOCATION: asia-southeast1
-  # SERVICE: demo-service
-  # REGION: asia-southeast1
-  # REPOSITORY: demo-repo-registry
   PROJECT_ID: blissful-acumen-446915-h2 # TODO: update Google Cloud project id
   GAR_LOCATION: asia-southeast1
   SERVICE: ds-crs-service # TODO: update Cloud Run service name
@@ -73,6 +68,7 @@ jobs:
       contents: 'read'
       id-token: 'write'
 
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
