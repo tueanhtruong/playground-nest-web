@@ -34,10 +34,9 @@
       "command": "nest build"
     },
     "build": {
+      "command": "nest build",
       "dependencies": [
-        "build:db-gen",
-        "build:build",
-        "build:db-deploy"
+        "build:db-gen"
       ]
     }
   },
