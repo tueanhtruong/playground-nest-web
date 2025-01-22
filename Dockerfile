@@ -5,12 +5,16 @@ ARG BUILD_TYPE
 
 ENV BUILD_TYPE=${BUILD_TYPE}
 
+RUN apk add --no-cache openssl
+
 RUN apk add --no-cache libc6-compat
 RUN corepack enable
 RUN corepack prepare pnpm@latest --activate
 
 # Create app directory
 WORKDIR /app
+
+
 
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json ./
